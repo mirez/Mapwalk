@@ -1,0 +1,105 @@
+html {
+    height: 100%
+}
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0
+}
+#map-canvas {
+    height: 500px;
+    width: 600px;
+}
+.spread {
+    padding-top: 100px;
+}
+/*
+            div.jumbotron {
+                margin-top: 50px;
+            }
+*/
+ .navbar-brand {
+    padding: 0px 0px;
+}
+img.logo {
+    height: 100%;
+    width: 50px;
+}
+em {
+    font-weight: 700;
+}
+.county-boundary {
+    fill: none;
+    stroke: #777;
+    stroke-dasharray: 2, 2;
+    stroke-linejoin: round;
+}
+.state-boundary {
+    fill: none;
+    stroke: none;
+    stroke-linejoin: round;
+}
+text {
+    font-family: garamond;
+    fill: black;
+    font-weight: 300;
+    text-anchor: middle;
+    font-size: 100px;
+}
+path.county {
+    fill: #050;
+    cursor: pointer;
+}
+path.activeCounty {
+    stroke: #777;
+    stroke-width: 2px;
+    fill: #080;
+}
+path.county:hover {
+    stroke: #777;
+    stroke-width: 2px;
+    fill: #0a0 !important;
+}
+.map {
+    width: 600px;
+    display: inline-block;
+    height: 600px;
+    overflow: hidden;
+    float: left;
+    min-width: 700px;
+    border: 3px solid #aaa;
+    border-radius: 4px;
+    background-color: #999;
+    margin: 0 auto;
+}
+.summary {
+    display:inline-block;
+    height: 600px;
+    float:left;
+    min-width: 400px;
+    border-radius: 4px;
+    background-color: #777;
+    padding: 20px !important;
+    color: white;
+}
+.summary div {
+    padding: 8px;
+    margin-bottom: 10px;
+}
+.summary h2 {
+    text-shadow: 1px 1px 1px #000;
+    font-size: 20px;
+}
+.summary h5 {
+    color: #080;
+    text-shadow: 1px 1px 1px #000;
+    font-size: 18px;
+}
+.event {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+text[county-name]{
+ cursor: pointer;   
+}

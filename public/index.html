@@ -1,0 +1,119 @@
+<html ng-app="mapApp">
+    
+    <head>
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="http://d3js.org/topojson.v1.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"></script>
+        <link href="/content/map.css" type="text/css" rel="stylesheet">
+        <script src="http://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript">
+            var mapApp = angular.module('mapApp', []);
+
+            mapApp.controller('AppCtrl', function AppCtrl($scope) {
+                $scope.mouseOverLabel = function() {
+
+                };
+            });
+            
+        </script>
+    </head>
+    
+    <body ng-controller="AppCtrl">
+        <section>
+            <div class="map"></div>
+            <script type="text/javascript">
+                // Set window height + width
+                var width = 700,
+                    height = 650;
+                var svg = d3.select(".map").append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                var projection = d3.geo.mercator()
+
+                 var path = d3.geo.path()
+                    .projection(projection);
+
+                d3.json("/data/vt-counties.json", function(error, vt) {
+
+                    var vermont = topojson.feature(vt, vt.objects.counties);
+
+                    projection
+                        .scale(1)
+                        .translate([0, 0]);
+
+                    var b = path.bounds(vermont),
+                        s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
+                        t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+
+                    projection
+                        .scale(s)
+                        .translate(t);
+
+
+                    svg.selectAll(".counties")
+                        .data(topojson.feature(vt, vt.objects.counties).features)
+                        .enter().append("path")
+                        .attr("county-name", function(d) {
+                        return d.properties.name.trim().toLowerCase();
+                    })
+                        .attr("d", path)
+                        .attr("class", function(d) {
+                        var resx = "county ";
+
+                        return resx;
+                    });
+
+
+                    svg.append("path")
+                        .datum(topojson.mesh(vt, vt.objects.counties, function(a, b) {
+                        return a !== b;
+                    }))
+                        .attr("d", path)
+                        .attr("class", "county-boundary");
+
+                    svg.selectAll(".county-label")
+                        .data(topojson.feature(vt, vt.objects.counties).features)
+                        .enter().append("text")
+                        .attr("transform", function(d) {
+                        return "translate(" + path.centroid(d) + ")";
+                    })
+                        .attr("county-name", function(d) {
+                        return d.properties.name.trim().toLowerCase();
+                    })
+                        .attr("dy", ".35em")
+                        .text(function(d) {
+                        return d.properties.name;
+                    })
+                        .style("font-size", "0px")
+                        .transition()
+                        .delay(500)
+                        .style("text-anchor", function(d) {
+
+                        
+
+                        if (d.properties["labelOrientation"]) {
+                            return d.properties.labelOrientation;
+                        }
+                        return "middle";
+                    })
+                        .on('mouseover', function() {
+                             console.log("mouseover");
+                                 
+                          })
+                        .style("fill", "#fff")
+                        .style("text-shadow", "2px 2px 4px #000")
+                        .style("font-weight", "700")
+                        .style("font-size", "34px");
+
+                });
+
+                d3.select(self.frameElement).style("height", height + "px");
+                 
+            </script>
+        </section>
+        <section></section>
+        <section></section>
+    </body>
+
+</html>
